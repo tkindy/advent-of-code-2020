@@ -13,7 +13,8 @@
   [& args]
   (let [numbers (->> (str/split (slurp "resources/input") #"\n")
                      (map #(Integer/parseInt %)))
-        pairs (cart (list numbers numbers))
+        pairs (cart (list numbers numbers numbers))
         match (first (filter (fn [pair] (= (reduce + pair) 2020)) pairs))
-        product (* (first match) (second match))]
+        product (reduce * match)]
+    (println match)
     (println product)))
