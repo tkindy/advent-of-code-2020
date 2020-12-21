@@ -23,8 +23,20 @@
   [group]
   (apply set/union group))
 
+(defn all-yes
+  [group]
+  (apply set/intersection group))
+
+(defn sum
+  [l]
+  (reduce + 0 l))
+
 (defn -main
   [& args]
-  (let [groups (read-input)
-        yes-counts (map (comp count any-yes) groups)]
-    (println "Part 1:" (reduce + 0 yes-counts))))
+  (let [groups (read-input)]
+    (println "Part 1:" (->> groups
+                            (map (comp count any-yes))
+                            sum))
+    (println "Part 2:" (->> groups
+                            (map (comp count all-yes))
+                            sum))))
