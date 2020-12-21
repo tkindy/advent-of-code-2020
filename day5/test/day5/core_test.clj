@@ -1,7 +1,7 @@
 (ns day5.core-test
-    (:require [clojure.test :refer :all]
-              [day5.core :refer :all]))
+  (:require [clojure.test :refer :all]
+            [day5.core :refer [resolve-path]]))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+(deftest test-resolve-path
+  (is (= (resolve-path 0 7 ['right 'left 'left])
+         4)))
