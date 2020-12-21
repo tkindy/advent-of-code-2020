@@ -36,7 +36,31 @@
        (filter part1-valid?)
        count))
 
+(defn part1->part2
+  [pass]
+  (let [{:keys [min-count max-count letter password]} pass]
+    {:pos1 min-count
+     :pos2 max-count
+     :letter letter
+     :password password}))
+
+(defn part2-valid?
+  [pass]
+  (let [{:keys [pos1 pos2 letter password]} pass
+        pass-char (fn [index] (.charAt password (- index 1)))
+        char1? (= letter (pass-char pos1))
+        char2? (= letter (pass-char pos2))]
+    (or (and char1? (not char2?))
+        (and (not char1?) char2?))))
+
+(defn part2-count-valid
+  [ps]
+  (->> ps
+       (filter part2-valid?)
+       count))
+
 (defn -main
   [& args]
   (let [ps (read-input)]
-    (println "Part 1:" (part1-count-valid ps))))
+    (println "Part 1:" (part1-count-valid ps))
+    (println "Part 2:" (part2-count-valid (map part1->part2 ps)))))
