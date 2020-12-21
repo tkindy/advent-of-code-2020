@@ -34,4 +34,5 @@
 
 (defn -main
   [& args]
-  (println "Hello, World!"))
+  (let [ps (read-input)]
+    (println (count-valid ps))))
