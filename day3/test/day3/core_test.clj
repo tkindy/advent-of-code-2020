@@ -1,7 +1,8 @@
 (ns day3.core-test
-    (:require [clojure.test :refer :all]
-              [day3.core :refer :all]))
+  (:require [clojure.test :refer :all]
+            [day3.core :refer [parse-line]]))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+(deftest test-parse-line
+  (testing "parse-line"
+    (is (= (parse-line ".#..###.")
+           ['open 'tree 'open 'open 'tree 'tree 'tree 'open]))))
