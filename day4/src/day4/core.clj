@@ -58,13 +58,19 @@
     ":pid" (re-matches #"\d{9}" v)
     ":cid" true))
 
-(defn valid?
+(defn part1-valid?
   [passport]
   (set/subset? required-fields (set (keys passport))))
 
+(defn part2-valid?
+  [passport]
+  (and (set/subset? required-fields (set (keys passport)))
+       (every? #(let [[k v] %] (valid-field? k v))
+               passport)))
+
 (defn -main
   [& args]
-  (let [passports (read-input)
-        valid-passports (filter valid? passports)]
+  (let [passports (read-input)]
     (println (count passports) "total passports")
-    (println "Part 1:" (count valid-passports))))
+    (println "Part 1:" (count (filter part1-valid? passports)))
+    (println "Part 2:" (count (filter part2-valid? passports)))))

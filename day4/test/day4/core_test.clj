@@ -1,7 +1,7 @@
 (ns day4.core-test
   (:require [clojure.test :refer :all]
-            [day4.core :refer [split-passports parse-passport valid?
-                               valid-field?]]))
+            [day4.core :refer [split-passports parse-passport part1-valid?
+                               valid-field? part2-valid?]]))
 
 (def example-input
   "ecl:gry pid:860033327 eyr:2020 hcl:#fffffd
@@ -39,10 +39,10 @@ iyr:2011 ecl:brn hgt:59in")
           :byr "1937" :iyr "2017" :cid "147" :hgt "183cm"})))
 
 (deftest test-valid?
-  (is (valid? all-fields))
-  (is (not (valid? missing-hgt)))
-  (is (valid? missing-cid))
-  (is (not (valid? missing-cid-byr))))
+  (is (part1-valid? all-fields))
+  (is (not (part1-valid? missing-hgt)))
+  (is (part1-valid? missing-cid))
+  (is (not (part1-valid? missing-cid-byr))))
 
 (deftest test-valid-field?
   (testing "byr"
@@ -56,3 +56,6 @@ iyr:2011 ecl:brn hgt:59in")
     (is (valid-field? :hgt "73in"))
     (is (not (valid-field? :hgt "asjdih9")))
     (is (not (valid-field? :hgt "149cm")))))
+
+(deftest test-part2-valid?
+  (is (part2-valid? all-fields)))
