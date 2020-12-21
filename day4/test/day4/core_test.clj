@@ -1,6 +1,7 @@
 (ns day4.core-test
   (:require [clojure.test :refer :all]
-            [day4.core :refer [split-passports parse-passport valid?]]))
+            [day4.core :refer [split-passports parse-passport valid?
+                               valid-field?]]))
 
 (def example-input
   "ecl:gry pid:860033327 eyr:2020 hcl:#fffffd
@@ -42,3 +43,16 @@ iyr:2011 ecl:brn hgt:59in")
   (is (not (valid? missing-hgt)))
   (is (valid? missing-cid))
   (is (not (valid? missing-cid-byr))))
+
+(deftest test-valid-field?
+  (testing "byr"
+    (is (not (valid-field? :byr "asiduasd")))
+    (is (valid-field? :byr "1920"))
+    (is (valid-field? :byr "2002"))
+    (is (not (valid-field? :byr "1919")))
+    (is (not (valid-field? :byr "2003"))))
+  (testing "hgt"
+    (is (valid-field? :hgt "174cm"))
+    (is (valid-field? :hgt "73in"))
+    (is (not (valid-field? :hgt "asjdih9")))
+    (is (not (valid-field? :hgt "149cm")))))
