@@ -23,20 +23,20 @@
        (filter (fn [l] (= l c)))
        count))
 
-(defn valid?
+(defn part1-valid?
   [pass]
   (let [count (count-occurrences (:password pass) (:letter pass))]
     (<= (:min-count pass)
         count
         (:max-count pass))))
 
-(defn count-valid
+(defn part1-count-valid
   [ps]
   (->> ps
-       (filter valid?)
+       (filter part1-valid?)
        count))
 
 (defn -main
   [& args]
   (let [ps (read-input)]
-    (println (count-valid ps))))
+    (println "Part 1:" (part1-count-valid ps))))
