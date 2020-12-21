@@ -1,6 +1,7 @@
 (ns day4.core
   (:gen-class)
-  (:require [clojure.string :as s]))
+  (:require [clojure.string :as s]
+            [clojure.set :as set]))
 
 (defn split-passports
   [input]
@@ -26,10 +27,11 @@
 
 (defn valid?
   [passport]
-  (= (set (keys passport)) required-fields))
+  (set/subset? required-fields (set (keys passport))))
 
 (defn -main
   [& args]
   (let [passports (read-input)
         valid-passports (filter valid? passports)]
+    (println (count passports) "total passports")
     (println "Part 1:" (count valid-passports))))
