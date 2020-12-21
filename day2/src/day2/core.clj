@@ -1,5 +1,6 @@
 (ns day2.core
-  (:gen-class))
+  (:gen-class)
+  (:require [clojure.java.io :as io]))
 
 (defn parse-line
   [line]
@@ -10,8 +11,11 @@
 
 (defn read-input
   []
-  (with-open [rdr (clojure.java.io/reader "resources/input")]
-    (map parse-line rdr)))
+  (with-open [rdr (io/reader "resources/input")]
+    (->> rdr
+         line-seq
+         (reduce conj [])
+         (map parse-line))))
 
 (defn count-occurrences
   [s c]
