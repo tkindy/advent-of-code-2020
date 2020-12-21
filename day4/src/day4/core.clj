@@ -21,6 +21,15 @@
        split-passports
        (map parse-passport)))
 
+(def required-fields (set [:byr :iyr :eyr :hgt
+                           :hcl :ecl :pid]))
+
+(defn valid?
+  [passport]
+  (= (set (keys passport)) required-fields))
+
 (defn -main
   [& args]
-  (println "Hello, World!"))
+  (let [passports (read-input)
+        valid-passports (filter valid? passports)]
+    (println "Part 1:" (count valid-passports))))
