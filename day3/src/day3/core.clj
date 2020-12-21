@@ -20,12 +20,12 @@
          (map parse-line))))
 
 (defn get-path
-  [the-map]
+  [the-map dx dy]
   (loop [x 0, y 0, path []]
     (if (>= y (count the-map))
       path
-      (recur (mod (+ x 3) (count (first the-map)))
-             (+ y 1)
+      (recur (mod (+ x dx) (count (first the-map)))
+             (+ y dy)
              (conj path (-> the-map (nth y) (nth x)))))))
 
 (defn count-trees
@@ -37,5 +37,5 @@
 (defn -main
   [& args]
   (let [the-map (read-input)
-        path (get-path the-map)]
+        path (get-path the-map 3 1)]
     (println "Part 1:" (count-trees path))))
