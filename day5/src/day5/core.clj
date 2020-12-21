@@ -35,7 +35,19 @@
          (reduce conj [])
          (map parse-line))))
 
+(defn find-seat
+  [ids]
+  (let [ids (set ids)]
+    (loop [id 0]
+      (if (and (not (contains? ids id))
+               (contains? ids (- id 1))
+               (contains? ids (+ id 1)))
+        id
+        (recur (+ id 1))))))
+
 (defn -main
   [& args]
-  (let [seats (read-input)]
-    (println "Part 1:" (apply max (map :id seats)))))
+  (let [seats (read-input)
+        ids (map :id seats)]
+    (println "Part 1:" (apply max ids))
+    (println "Part 2:" (find-seat ids))))
