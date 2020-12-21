@@ -19,6 +19,19 @@
        (filter (fn [l] (= l c)))
        count))
 
+(defn valid?
+  [pass]
+  (let [count (count-occurrences (:password pass) (:letter pass))]
+    (<= (:min-count pass)
+        count
+        (:max-count pass))))
+
+(defn count-valid
+  [ps]
+  (->> ps
+       (filter valid?)
+       count))
+
 (defn -main
   [& args]
   (println "Hello, World!"))
