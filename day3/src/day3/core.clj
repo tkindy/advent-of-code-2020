@@ -37,5 +37,9 @@
 (defn -main
   [& args]
   (let [the-map (read-input)
-        path (get-path the-map 3 1)]
-    (println "Part 1:" (count-trees path))))
+        part1-path (get-path the-map 3 1)
+        slopes [[1 1] [3 1] [5 1] [7 1] [1 2]]
+        part2-paths (map #(get-path the-map (first %) (second %)) slopes)
+        part2-counts (map count-trees part2-paths)]
+    (println "Part 1:" (count-trees part1-path))
+    (println "Part 2:" (apply * part2-counts))))
