@@ -1,6 +1,6 @@
 (ns day8.core-test
   (:require [clojure.test :refer :all]
-            [day8.core :refer [parse-input]]))
+            [day8.core :refer [parse-input find-loop]]))
 
 (def example-code
   "nop +0
@@ -25,3 +25,6 @@ acc +6")
 
 (deftest test-parse-input
   (is (= (parse-input example-code) example-parsed)))
+
+(deftest test-find-loop
+  (is (= (find-loop example-parsed) 5)))
