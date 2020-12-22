@@ -5,7 +5,7 @@
 (defn parse-instruction
   [line]
   (let [[_ op arg] (re-matches #"(nop|acc|jmp) ([\+-]\d+)" line)]
-    [(symbol op) (Integer/parseInt arg)]))
+    {:op (symbol op) :arg (Integer/parseInt arg)}))
 
 (defn parse-input
   [input]

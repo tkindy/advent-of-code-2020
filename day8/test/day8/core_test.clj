@@ -13,15 +13,15 @@ acc +1
 jmp -4
 acc +6")
 (def example-parsed
-  [['nop 0]
-   ['acc 1]
-   ['jmp 4]
-   ['acc 3]
-   ['jmp -3]
-   ['acc -99]
-   ['acc 1]
-   ['jmp -4]
-   ['acc 6]])
+  [{:op 'nop :arg 0}
+   {:op 'acc :arg 1}
+   {:op 'jmp :arg 4}
+   {:op 'acc :arg 3}
+   {:op 'jmp :arg -3}
+   {:op 'acc :arg -99}
+   {:op 'acc :arg 1}
+   {:op 'jmp :arg -4}
+   {:op 'acc :arg 6}])
 
 (deftest test-parse-input
   (is (= (parse-input example-code) example-parsed)))
