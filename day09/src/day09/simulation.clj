@@ -17,30 +17,37 @@
     :else false))
 
 (defn get-cube
-  [space {:keys [x y z]}]
-  (get-in space [z y x] false))
+  [space {:keys [x y z w]}]
+  (get-in space [w z y x] false))
 
 (defn get-neighbor-locs
   [loc]
-  (let [{:keys [x y z]} loc]
+  (let [{:keys [x y z w]} loc]
     (->>
      (combo/cartesian-product [(- x 1) x (+ x 1)]
                               [(- y 1) y (+ y 1)]
-                              [(- z 1) z (+ z 1)])
-     (map (fn [[x y z]] {:x x, :y y, :z z}))
+                              [(- z 1) z (+ z 1)]
+                              [(- w 1) w (+ w 1)])
+     (map (fn [[x y z w]] {:x x, :y y, :z z, :w w}))
      (filter #(not= % loc))
      set)))
 
 (defn get-all-locs
-  [space]
-  (let [zs (set (keys space))
-        ys (set (mapcat (fn [[_ plane]] (keys plane)) space))
-        xs (set (mapcat (fn [[_ plane]]
-                          (mapcat (fn [[_ line]] (keys line)) plane))
-                        space))]
+  [four-space]
+  (let [ws (set (keys four-space))
+        zs (set (mapcat (fn [[_ space]] (keys space)) four-space))
+        ys (set (mapcat (fn [[_ space]]
+                          (mapcat (fn [[_ plane]] (keys plane)) space))
+                        four-space))
+        xs (set (mapcat (fn [[_ space]]
+                          (mapcat (fn [[_ plane]]
+                                    (mapcat (fn [[_ line]] (keys line))
+                                            plane))
+                                  space))
+                        four-space))]
     (->>
-     (combo/cartesian-product xs ys zs)
-     (map (fn [[x y z]] {:x x, :y y, :z z}))
+     (combo/cartesian-product xs ys zs ws)
+     (map (fn [[x y z w]] {:x x, :y y, :z z, :w w}))
      set)))
 
 (defn get-active-locs
@@ -55,12 +62,14 @@
            (map get-neighbor-locs active-locs))))
 
 (defn assoc-cube
-  [space {:keys [x y z]} cube]
-  (let [plane (get space z (sorted-map))
+  [four-space {:keys [x y z w]} cube]
+  (let [space (get four-space w (sorted-map))
+        plane (get space z (sorted-map))
         line (get plane y (sorted-map))]
-    (assoc space z
-           (assoc plane y
-                  (assoc line x cube)))))
+    (assoc four-space w
+           (assoc space z
+                  (assoc plane y
+                         (assoc line x cube))))))
 
 (defn run-cycle
   [space]

@@ -21,7 +21,7 @@
 (defn -main
   [& args]
   (let [space (read-input)]
-    (println "Part 1:" (->> (reduce (fn [cur-space _] (run-cycle cur-space))
+    (println "Part 2:" (->> (reduce (fn [cur-space _] (run-cycle cur-space))
                                     space
                                     (range 6))
                             get-active-locs

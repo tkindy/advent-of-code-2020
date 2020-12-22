@@ -10,10 +10,11 @@
 (defn parse-input
   [input]
   (sorted-map 0
-              (->> input
-                   str/split-lines
-                   (map-indexed (fn [index line] {index (parse-line line)}))
-                   (apply merge (sorted-map)))))
+              (sorted-map 0
+                          (->> input
+                               str/split-lines
+                               (map-indexed (fn [index line] {index (parse-line line)}))
+                               (apply merge (sorted-map))))))
 
 (defn read-input
   []
