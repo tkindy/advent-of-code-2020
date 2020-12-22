@@ -14,6 +14,11 @@
 ; A Space is a SortedMap<Integer, Plane>
 ; where the keys are z-coordinates
 
+
+;;;;;;;;;;;;;;;;;
+;;;  PARSING  ;;;
+;;;;;;;;;;;;;;;;;
+
 (defn parse-line
   [line]
   (->> line
@@ -31,6 +36,11 @@
 (defn read-input
   []
   (parse-input (slurp "resources/input")))
+
+
+;;;;;;;;;;;;;;;;;;
+;;;  PRINTING  ;;;
+;;;;;;;;;;;;;;;;;;
 
 (defn cube->string
   [cube]
