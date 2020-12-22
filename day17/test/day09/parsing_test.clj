@@ -1,7 +1,7 @@
-(ns day09.parsing-test
+(ns day17.parsing-test
   (:require [clojure.test :refer :all]
-            [day09.common-test :refer [example-state example-parsed]]
-            [day09.parsing :refer [parse-input]]))
+            [day17.common-test :refer [example-state example-parsed]]
+            [day17.parsing :refer [parse-input]]))
 
 (deftest test-parse-input
   (let [parsed (parse-input example-state)]

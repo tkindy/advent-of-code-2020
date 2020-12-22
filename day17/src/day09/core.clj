@@ -1,7 +1,7 @@
-(ns day09.core
+(ns day17.core
   (:gen-class)
-  (:require [day09.parsing :refer [read-input]]
-            [day09.simulation :refer [run-cycle get-active-locs]]))
+  (:require [day17.parsing :refer [read-input]]
+            [day17.simulation :refer [run-cycle get-active-locs]]))
 
 ; A Cube is a Boolean indicating whether the cube
 ; is active or inactive

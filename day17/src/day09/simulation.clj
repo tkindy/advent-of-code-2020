@@ -1,4 +1,4 @@
-(ns day09.simulation
+(ns day17.simulation
   (:require [clojure.core.match :refer [match]]
             [clojure.math.combinatorics :as combo]
             [clojure.set :as set]))

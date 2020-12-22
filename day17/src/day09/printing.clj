@@ -1,6 +1,6 @@
-(ns day09.printing
+(ns day17.printing
   (:require [clojure.string :as str]
-            [day09.simulation :refer [get-active-locs get-cube]]))
+            [day17.simulation :refer [get-active-locs get-cube]]))
 
 (defn cube->string
   [cube]

@@ -1,4 +1,4 @@
-(ns day09.parsing
+(ns day17.parsing
   (:require [clojure.string :as str]))
 
 (defn parse-line

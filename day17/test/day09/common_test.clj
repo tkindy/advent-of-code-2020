@@ -1,4 +1,4 @@
-(ns day09.common-test)
+(ns day17.common-test)
 
 (def example-state
   ".#.
