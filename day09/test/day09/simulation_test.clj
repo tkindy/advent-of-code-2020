@@ -1,11 +1,12 @@
 (ns day09.simulation-test
   (:require [clojure.test :refer :all]
             [day09.common-test :refer [example-parsed example-cycled]]
-            [day09.simulation :refer [run-cycle get-neighbor-locs get-cube get-all-locs]]))
+            [day09.simulation :refer [run-cycle get-neighbor-locs get-cube get-all-locs
+                                      get-active-locs]]))
 
 (deftest test-run-cycle
-  (is (= (run-cycle example-parsed)
-         example-cycled)))
+  (is (= (count (get-active-locs (run-cycle example-parsed)))
+         11)))
 
 (deftest test-get-neighbor-locs
   (is (= (get-neighbor-locs {:x 3, :y -7, :z 14})

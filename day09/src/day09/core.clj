@@ -1,5 +1,7 @@
 (ns day09.core
-  (:gen-class))
+  (:gen-class)
+  (:require [day09.parsing :refer [read-input]]
+            [day09.simulation :refer [run-cycle get-active-locs]]))
 
 ; A Cube is a Boolean indicating whether the cube
 ; is active or inactive
@@ -18,4 +20,9 @@
 
 (defn -main
   [& args]
-  (println "Hello, World!"))
+  (let [space (read-input)]
+    (println "Part 1:" (->> (reduce (fn [cur-space _] (run-cycle cur-space))
+                                    space
+                                    (range 6))
+                            get-active-locs
+                            count))))

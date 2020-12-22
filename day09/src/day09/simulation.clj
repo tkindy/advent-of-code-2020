@@ -1,6 +1,7 @@
 (ns day09.simulation
   (:require [clojure.core.match :refer [match]]
-            [clojure.math.combinatorics :as combo]))
+            [clojure.math.combinatorics :as combo]
+            [clojure.set :as set]))
 
 (defn count-active
   [cubes]
@@ -42,9 +43,32 @@
      (map (fn [[x y z]] {:x x, :y y, :z z}))
      set)))
 
+(defn get-active-locs
+  [space]
+  (set (filter #(get-cube space %) (get-all-locs space))))
+
 (defn find-cubes-to-cycle
-  [space])
+  [space]
+  (let [active-locs (get-active-locs space)]
+    (apply set/union
+           (set active-locs)
+           (map get-neighbor-locs active-locs))))
+
+(defn assoc-cube
+  [space {:keys [x y z]} cube]
+  (let [plane (get space z (sorted-map))
+        line (get plane y (sorted-map))]
+    (assoc space z
+           (assoc plane y
+                  (assoc line x cube)))))
 
 (defn run-cycle
   [space]
-  space)
+  (reduce (fn [new-space loc]
+            (let [cube (get-cube space loc)
+                  neighbors (map #(get-cube space %) (get-neighbor-locs loc))]
+              (assoc-cube new-space
+                          loc
+                          (run-cycle-cube cube neighbors))))
+          (sorted-map)
+          (find-cubes-to-cycle space)))
