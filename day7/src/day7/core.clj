@@ -47,15 +47,21 @@
                             (conj % color))))
                {})))
 
+(defn traverse-containers
+  [color rules color->acc]
+  (let [index (build-container-index rules)
+        acc (loop [acc [], frontier [color]]
+              (if (empty? frontier)
+                acc
+                (let [color (first frontier)]
+                  (recur (conj acc (color->acc color))
+                         (apply conj (rest frontier) (get index color []))))))]
+    acc))
+
 (defn find-containers
   [color rules]
-  (let [index (build-container-index rules)
-        found (loop [found [], frontier [color]]
-                (if (empty? frontier)
-                  found
-                  (let [color (first frontier)]
-                    (recur (conj found color)
-                           (apply conj (rest frontier) (get index color []))))))]
+  (let [found (traverse-containers color rules
+                                   (fn [color] color))]
     (disj (set found) color)))
 
 (defn -main
