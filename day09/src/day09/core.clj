@@ -18,14 +18,15 @@
   [line]
   (->> line
        (map-indexed (fn [index c] {index (= \# c)}))
-       (apply merge)))
+       (apply merge (sorted-map))))
 
 (defn parse-input
   [input]
-  {0 (->> input
-          str/split-lines
-          (map-indexed (fn [index line] {index (parse-line line)}))
-          (apply merge))})
+  (sorted-map 0
+              (->> input
+                   str/split-lines
+                   (map-indexed (fn [index line] {index (parse-line line)}))
+                   (apply merge (sorted-map)))))
 
 (defn read-input
   []

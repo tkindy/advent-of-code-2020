@@ -7,13 +7,22 @@
 ..#
 ###")
 (def example-parsed
-  {0 {0 {0 false, 1 true,  2 false}
-      1 {0 false, 1 false, 2 true}
-      2 {0 true,  1 true,  2 true}}})
+
+  (sorted-map 0
+              (sorted-map 0 (sorted-map 0 false, 1 true,  2 false)
+                          1 (sorted-map 0 false, 1 false, 2 true)
+                          2 (sorted-map 0 true,  1 true,  2 true))))
 
 (deftest test-parse-input
-  (is (= (parse-input example-state)
-         example-parsed)))
+  (let [parsed (parse-input example-state)]
+    (is (= parsed example-parsed))
+    (is (sorted? parsed))
+    (is (every? sorted? (map (fn [[_ plane]] plane) parsed)))
+    (is (every? sorted? (apply concat
+                               (map (fn [[_ plane]]
+                                      (map (fn [[_ line]] line)
+                                           plane))
+                                    parsed))))))
 
 (deftest test-space->string
   (is (= (space->string example-parsed)
