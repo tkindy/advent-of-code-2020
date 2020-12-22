@@ -5,16 +5,15 @@
 (defn count-active
   [cubes]
   (->> cubes
-       (filter (fn [cube] cube))
+       (filter true?)
        count))
 
 (defn run-cycle-cube
   [cube neighbors]
-  (let [num-active-neighbors (count-active neighbors)]
-    (match [cube num-active-neighbors]
-      [true (:or 2 3)] true
-      [false 3] true
-      :else false)))
+  (match [cube (count-active neighbors)]
+    [true (:or 2 3)] true
+    [false 3] true
+    :else false))
 
 (defn get-cube
   [space {:keys [x y z]}]
