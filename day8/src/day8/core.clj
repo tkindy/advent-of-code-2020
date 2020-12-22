@@ -18,24 +18,24 @@
   []
   (parse-input (slurp "resources/input")))
 
-(defn execute
+(defn execute-instruction
   [instruction pc accumulator]
   (match (:op instruction)
     'nop {:pc (+ pc 1) :accumulator accumulator}
     'acc {:pc (+ pc 1) :accumulator (+ accumulator (:arg instruction))}
     'jmp {:pc (+ pc (:arg instruction)) :accumulator accumulator}))
 
-(defn find-loop
+(defn execute
   [program]
   (loop [pc 0, accumulator 0, executed #{}]
     (cond
       (contains? executed pc) {:reason 'looped :accumulator accumulator}
       (= pc (count program)) {:reason 'terminated :accumulator accumulator}
       :else (let [{new-pc :pc, :keys [accumulator]}
-                  (execute (nth program pc) pc accumulator)]
+                  (execute-instruction (nth program pc) pc accumulator)]
               (recur new-pc accumulator (conj executed pc))))))
 
 (defn -main
   [& args]
   (let [program (read-input)]
-    (println "Part 1:" (:accumulator (find-loop program)))))
+    (println "Part 1:" (:accumulator (execute program)))))
