@@ -1,7 +1,7 @@
-(ns day7.core-test
+(ns day07.core-test
   (:require [clojure.test :refer :all]
-            [day7.core :refer [parse-input parse-rule build-container-index
-                               find-containers count-inner-bags]]))
+            [day07.core :refer [parse-input parse-rule build-container-index
+                                find-containers count-inner-bags]]))
 
 (def example-rules
   "light red bags contain 1 bright white bag, 2 muted yellow bags.

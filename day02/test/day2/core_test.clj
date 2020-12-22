@@ -1,7 +1,7 @@
-(ns day2.core-test
+(ns day02.core-test
   (:require [clojure.test :refer :all]
-            [day2.core :refer [parse-line count-occurrences
-                               part1-valid? part1-count-valid]]))
+            [day02.core :refer [parse-line count-occurrences
+                                part1-valid? part1-count-valid]]))
 
 (def at-min {:min-count 1 :max-count 3
              :letter \a :password "abcde"})

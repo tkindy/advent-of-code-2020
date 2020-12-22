@@ -1,6 +1,6 @@
-(ns day8.core-test
+(ns day08.core-test
   (:require [clojure.test :refer :all]
-            [day8.core :refer [parse-input execute fix-program]]))
+            [day08.core :refer [parse-input execute fix-program]]))
 
 (def example-code
   "nop +0

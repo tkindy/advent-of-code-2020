@@ -1,6 +1,6 @@
-(ns day3.core-test
+(ns day03.core-test
   (:require [clojure.test :refer :all]
-            [day3.core :refer [parse-line]]))
+            [day03.core :refer [parse-line]]))
 
 (deftest test-parse-line
   (testing "parse-line"

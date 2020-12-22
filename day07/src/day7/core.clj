@@ -1,4 +1,4 @@
-(ns day7.core
+(ns day07.core
   (:gen-class)
   (:require [clojure.string :as str]))
 

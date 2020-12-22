@@ -1,7 +1,7 @@
-(ns day4.core-test
+(ns day04.core-test
   (:require [clojure.test :refer :all]
-            [day4.core :refer [split-passports parse-passport part1-valid?
-                               valid-field? part2-valid?]]))
+            [day04.core :refer [split-passports parse-passport part1-valid?
+                                valid-field? part2-valid?]]))
 
 (def example-input
   "ecl:gry pid:860033327 eyr:2020 hcl:#fffffd

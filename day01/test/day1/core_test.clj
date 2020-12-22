@@ -1,6 +1,6 @@
-(ns day1.core-test
+(ns day01.core-test
   (:require [clojure.test :refer :all]
-            [day1.core :refer (cart)]))
+            [day01.core :refer (cart)]))
 
 (deftest a-test
   (testing "cart"

@@ -1,4 +1,4 @@
-(ns day8.core
+(ns day08.core
   (:gen-class)
   (:require [clojure.string :as str]
             [clojure.core.match :refer [match]]))
