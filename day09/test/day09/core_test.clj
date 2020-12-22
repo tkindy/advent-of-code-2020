@@ -18,11 +18,10 @@
     (is (= parsed example-parsed))
     (is (sorted? parsed))
     (is (every? sorted? (map (fn [[_ plane]] plane) parsed)))
-    (is (every? sorted? (apply concat
-                               (map (fn [[_ plane]]
-                                      (map (fn [[_ line]] line)
-                                           plane))
-                                    parsed))))))
+    (is (every? sorted? (mapcat (fn [[_ plane]]
+                                  (map (fn [[_ line]] line)
+                                       plane))
+                                parsed)))))
 
 (deftest test-space->string
   (is (= (space->string example-parsed)
