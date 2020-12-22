@@ -28,13 +28,14 @@
 (defn find-loop
   [program]
   (loop [pc 0, accumulator 0, executed #{}]
-    (if (contains? executed pc)
-      accumulator
-      (let [{new-pc :pc, :keys [accumulator]}
-            (execute (nth program pc) pc accumulator)]
-        (recur new-pc accumulator (conj executed pc))))))
+    (cond
+      (contains? executed pc) {:reason 'looped :accumulator accumulator}
+      (= pc (count program)) {:reason 'terminated :accumulator accumulator}
+      :else (let [{new-pc :pc, :keys [accumulator]}
+                  (execute (nth program pc) pc accumulator)]
+              (recur new-pc accumulator (conj executed pc))))))
 
 (defn -main
   [& args]
   (let [program (read-input)]
-    (println "Part 1:" (find-loop program))))
+    (println "Part 1:" (:accumulator (find-loop program)))))

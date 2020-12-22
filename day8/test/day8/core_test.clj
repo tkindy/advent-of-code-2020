@@ -27,4 +27,4 @@ acc +6")
   (is (= (parse-input example-code) example-parsed)))
 
 (deftest test-find-loop
-  (is (= (find-loop example-parsed) 5)))
+  (is (= (find-loop example-parsed) {:reason 'looped :accumulator 5})))
