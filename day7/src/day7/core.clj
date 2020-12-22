@@ -50,15 +50,13 @@
 (defn find-containers
   [color rules]
   (let [index (build-container-index rules)
-        found (loop [found #{}, frontier [color]]
+        found (loop [found [], frontier [color]]
                 (if (empty? frontier)
                   found
                   (let [color (first frontier)]
-                    (if (contains? found color)
-                      (recur found (rest frontier))
-                      (recur (conj found color)
-                             (apply conj (rest frontier) (get index color [])))))))]
-    (disj found color)))
+                    (recur (conj found color)
+                           (apply conj (rest frontier) (get index color []))))))]
+    (disj (set found) color)))
 
 (defn -main
   [& args]
