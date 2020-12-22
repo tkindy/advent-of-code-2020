@@ -31,6 +31,21 @@
      (filter #(not= % loc))
      set)))
 
+(defn get-all-locs
+  [space]
+  (let [zs (set (keys space))
+        ys (set (mapcat (fn [[_ plane]] (keys plane)) space))
+        xs (set (mapcat (fn [[_ plane]]
+                          (mapcat (fn [[_ line]] (keys line)) plane))
+                        space))]
+    (->>
+     (combo/cartesian-product xs ys zs)
+     (map (fn [[x y z]] {:x x, :y y, :z z}))
+     set)))
+
+(defn find-cubes-to-cycle
+  [space])
+
 (defn run-cycle
   [space]
   space)

@@ -1,7 +1,7 @@
 (ns day09.simulation-test
   (:require [clojure.test :refer :all]
             [day09.common-test :refer [example-parsed example-cycled]]
-            [day09.simulation :refer [run-cycle get-neighbor-locs get-cube]]))
+            [day09.simulation :refer [run-cycle get-neighbor-locs get-cube get-all-locs]]))
 
 (deftest test-run-cycle
   (is (= (run-cycle example-parsed)
@@ -23,3 +23,9 @@
   (is (get-cube example-parsed {:x 1, :y 2, :z 0}))
   (is (not (get-cube example-parsed {:x 2, :y 0, :z 0})))
   (is (not (get-cube example-parsed {:x 312, :y -79, :z 561}))))
+
+(deftest test-get-all-locs
+  (is (= (get-all-locs example-parsed)
+         #{{:x 0 :y 0 :z 0} {:x 1 :y 0 :z 0} {:x 2 :y 0 :z 0}
+           {:x 0 :y 1 :z 0} {:x 1 :y 1 :z 0} {:x 2 :y 1 :z 0}
+           {:x 0 :y 2 :z 0} {:x 1 :y 2 :z 0} {:x 2 :y 2 :z 0}})))
