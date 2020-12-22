@@ -1,7 +1,7 @@
 (ns day7.core-test
   (:require [clojure.test :refer :all]
             [day7.core :refer [parse-input parse-rule build-container-index
-                               find-containers]]))
+                               find-containers count-inner-bags]]))
 
 (def example-rules
   "light red bags contain 1 bright white bag, 2 muted yellow bags.
@@ -52,3 +52,7 @@ dotted black bags contain no other bags.")
   (is (= (find-containers "shiny gold" example-parsed)
          #{"bright white" "muted yellow"
            "dark orange" "light red"})))
+
+(deftest test-count-inner-bags
+  (is (= (count-inner-bags "shiny gold" example-parsed)
+         32)))

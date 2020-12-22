@@ -47,6 +47,20 @@
                             (conj % color))))
                {})))
 
+(defn expand-contents
+  [contents]
+  (mapcat (fn [{:keys [color count]}]
+            (->> (range count)
+                 (map (fn [_] color))))
+          contents))
+
+(defn build-contents-index
+  [rules]
+  (reduce (fn [acc {:keys [color contents]}]
+            (assoc acc color (expand-contents contents)))
+          {}
+          rules))
+
 (defn traverse-bags
   [accumulate init-acc color index]
   (loop [acc init-acc, frontier [color]]
@@ -62,7 +76,21 @@
                              (build-container-index rules))]
     (disj found color)))
 
+(defn count-bag-inner-bags
+  [color rules]
+  (let [rule (first (filter #(= (:color %) color) rules))]
+    (->> (:contents rule)
+         (map :count)
+         (reduce + 0))))
+
+(defn count-inner-bags
+  [color rules]
+  (traverse-bags (fn [acc _] (+ acc 1))
+                 -1 color
+                 (build-contents-index rules)))
+
 (defn -main
   [& args]
   (let [rules (read-input)]
-    (println "Part 1:" (count (find-containers "shiny gold" rules)))))
+    (println "Part 1:" (count (find-containers "shiny gold" rules)))
+    (println "Part 2:" (count-inner-bags "shiny gold" rules))))
