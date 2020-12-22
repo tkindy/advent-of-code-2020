@@ -54,7 +54,7 @@
                       (str "z=" z "\n"
                            (plane->string plane)))
                     space)]
-    (str/join "\n" planes)))
+    (str/join "\n\n" planes)))
 
 (defn -main
   [& args]

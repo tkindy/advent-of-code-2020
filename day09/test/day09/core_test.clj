@@ -7,11 +7,23 @@
 ..#
 ###")
 (def example-parsed
-
   (sorted-map 0
               (sorted-map 0 (sorted-map 0 false, 1 true,  2 false)
                           1 (sorted-map 0 false, 1 false, 2 true)
                           2 (sorted-map 0 true,  1 true,  2 true))))
+(def example-cycled
+  (sorted-map -1
+              (sorted-map 0 (sorted-map 0 true  1 false 2 false)
+                          1 (sorted-map 0 false 1 false 2 true)
+                          2 (sorted-map 0 false 1 true  2 false))
+              0
+              (sorted-map 0 (sorted-map 0 true  1 false 2 true)
+                          1 (sorted-map 0 false 1 true  2 true)
+                          2 (sorted-map 0 false 1 true  2 false))
+              1
+              (sorted-map 0 (sorted-map 0 true  1 false 2 false)
+                          1 (sorted-map 0 false 1 false 2 true)
+                          2 (sorted-map 0 false 1 true  2 false))))
 
 (deftest test-parse-input
   (let [parsed (parse-input example-state)]
@@ -26,4 +38,19 @@
 (deftest test-space->string
   (is (= (space->string example-parsed)
          (str "z=0\n"
-              example-state))))
+              example-state)))
+  (is (= (space->string example-cycled)
+         (str "z=-1\n"
+              "#..\n"
+              "..#\n"
+              ".#.\n"
+              "\n"
+              "z=0\n"
+              "#.#\n"
+              ".##\n"
+              ".#.\n"
+              "\n"
+              "z=1\n"
+              "#..\n"
+              "..#\n"
+              ".#."))))
