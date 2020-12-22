@@ -19,6 +19,16 @@
   []
   (parse-input (slurp "resources/input")))
 
+(defn cube->string
+  [cube])
+
+(defn row->string
+  [row])
+
+(defn space->string
+  [space]
+  (str/join "\n"))
+
 (defn -main
   [& args]
   (println "Hello, World!"))

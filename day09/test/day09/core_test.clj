@@ -1,6 +1,6 @@
 (ns day09.core-test
   (:require [clojure.test :refer :all]
-            [day09.core :refer [parse-input]]))
+            [day09.core :refer [parse-input space->string]]))
 
 (def example-state
   ".#.
@@ -14,3 +14,7 @@
 (deftest test-parse-input
   (is (= (parse-input example-state)
          example-parsed)))
+
+(deftest test-space->string
+  (is (= (space->string example-parsed)
+         example-state)))
