@@ -1,6 +1,6 @@
 (ns day7.core-test
   (:require [clojure.test :refer :all]
-            [day7.core :refer [parse-input parse-rule]]))
+            [day7.core :refer [parse-input parse-rule build-container-index]]))
 
 (def example-rules
   "light red bags contain 1 bright white bag, 2 muted yellow bags.
@@ -36,3 +36,13 @@ dotted black bags contain no other bags.")
 
 (deftest test-parse-input
   (is (= (parse-input example-rules) example-parsed)))
+
+(deftest test-build-container-index
+  (is (= (build-container-index example-parsed)
+         {"bright white" #{"light red" "dark orange"}
+          "muted yellow" #{"light red" "dark orange"}
+          "shiny gold" #{"bright white" "muted yellow"}
+          "faded blue" #{"muted yellow" "dark olive" "vibrant plum"}
+          "dark olive" #{"shiny gold"}
+          "vibrant plum" #{"shiny gold"}
+          "dotted black" #{"dark olive" "vibrant plum"}})))

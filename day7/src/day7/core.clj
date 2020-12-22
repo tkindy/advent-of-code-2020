@@ -31,6 +31,22 @@
   []
   (parse-input (slurp "resources/input")))
 
+(defn build-container-pairs
+  [rule]
+  (map (fn [content] [(:color rule) (:color content)])
+       (:contents rule)))
+
+(defn build-container-index
+  [rules]
+  (->> rules
+       (mapcat build-container-pairs)
+       (reduce (fn [acc [color content]]
+                 (update acc content
+                         #(if (nil? %)
+                            #{color}
+                            (conj % color))))
+               {})))
+
 (defn -main
   [& args]
   (println "Hello, World!"))
