@@ -1,6 +1,6 @@
 (ns day8.core-test
   (:require [clojure.test :refer :all]
-            [day8.core :refer [parse-input execute]]))
+            [day8.core :refer [parse-input execute fix-program]]))
 
 (def example-code
   "nop +0
@@ -28,3 +28,6 @@ acc +6")
 
 (deftest test-find-loop
   (is (= (execute example-parsed) {:reason 'looped :accumulator 5})))
+
+(deftest test-fix-program
+  (is (= (fix-program example-parsed) 8)))

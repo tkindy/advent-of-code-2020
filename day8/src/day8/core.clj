@@ -12,7 +12,8 @@
   [input]
   (->> input
        str/split-lines
-       (map parse-instruction)))
+       (map parse-instruction)
+       (reduce conj [])))
 
 (defn read-input
   []
@@ -35,7 +36,23 @@
                   (execute-instruction (nth program pc) pc accumulator)]
               (recur new-pc accumulator (conj executed pc))))))
 
+(defn fix-program
+  [program]
+  (loop [cur-index 0]
+    (let [cur-op (:op (nth program cur-index))]
+      (if (contains? #{'jmp 'nop} cur-op)
+        (let [program (assoc-in program [cur-index :op]
+                                (match cur-op
+                                  'jmp 'nop
+                                  'nop 'jmp))
+              result (execute program)]
+          (if (= 'terminated (:reason result))
+            (:accumulator result)
+            (recur (+ cur-index 1))))
+        (recur (+ cur-index 1))))))
+
 (defn -main
   [& args]
   (let [program (read-input)]
-    (println "Part 1:" (:accumulator (execute program)))))
+    (println "Part 1:" (:accumulator (execute program)))
+    (println "Part 2:" (fix-program program))))
