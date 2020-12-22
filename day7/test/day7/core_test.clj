@@ -1,6 +1,7 @@
 (ns day7.core-test
   (:require [clojure.test :refer :all]
-            [day7.core :refer [parse-input parse-rule build-container-index]]))
+            [day7.core :refer [parse-input parse-rule build-container-index
+                               find-containers]]))
 
 (def example-rules
   "light red bags contain 1 bright white bag, 2 muted yellow bags.
@@ -46,3 +47,8 @@ dotted black bags contain no other bags.")
           "dark olive" #{"shiny gold"}
           "vibrant plum" #{"shiny gold"}
           "dotted black" #{"dark olive" "vibrant plum"}})))
+
+(deftest test-find-containers
+  (is (= (find-containers "shiny gold" example-parsed)
+         #{"bright white" "muted yellow"
+           "dark orange" "light red"})))
