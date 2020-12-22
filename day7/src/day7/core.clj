@@ -62,4 +62,5 @@
 
 (defn -main
   [& args]
-  (println "Hello, World!"))
+  (let [rules (read-input)]
+    (println "Part 1:" (count (find-containers "shiny gold" rules)))))
