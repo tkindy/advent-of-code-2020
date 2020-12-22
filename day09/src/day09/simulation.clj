@@ -16,6 +16,10 @@
       [false 3] true
       :else false)))
 
+(defn get-cube
+  [space {:keys [x y z]}]
+  (get-in space [z y x] false))
+
 (defn get-neighbor-locs
   [loc]
   (let [{:keys [x y z]} loc]
