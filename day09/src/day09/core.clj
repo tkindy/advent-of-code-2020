@@ -32,14 +32,28 @@
   (parse-input (slurp "resources/input")))
 
 (defn cube->string
-  [cube])
+  [cube]
+  (if cube "#" "."))
 
-(defn row->string
-  [row])
+(defn line->string
+  [line]
+  (let [cubes (map (fn [[_ cube]] (cube->string cube))
+                   line)]
+    (str/join cubes)))
+
+(defn plane->string
+  [plane]
+  (let [lines (map (fn [[_ line]] (line->string line))
+                   plane)]
+    (str/join "\n" lines)))
 
 (defn space->string
   [space]
-  (str/join "\n"))
+  (let [planes (map (fn [[z plane]]
+                      (str "z=" z "\n"
+                           (plane->string plane)))
+                    space)]
+    (str/join "\n" planes)))
 
 (defn -main
   [& args]

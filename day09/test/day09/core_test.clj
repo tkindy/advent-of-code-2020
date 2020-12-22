@@ -17,4 +17,5 @@
 
 (deftest test-space->string
   (is (= (space->string example-parsed)
-         example-state)))
+         (str "z=0\n"
+              example-state))))
