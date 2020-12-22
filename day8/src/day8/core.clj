@@ -31,9 +31,10 @@
     (if (contains? executed pc)
       accumulator
       (let [{new-pc :pc, :keys [accumulator]}
-            (execute (get program pc) pc accumulator)]
+            (execute (nth program pc) pc accumulator)]
         (recur new-pc accumulator (conj executed pc))))))
 
 (defn -main
   [& args]
-  (println "Hello, World!"))
+  (let [program (read-input)]
+    (println "Part 1:" (find-loop program))))
