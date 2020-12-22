@@ -13,6 +13,9 @@
 ; A Space is a SortedMap<Integer, Plane>
 ; where the keys are z-coordinates
 
+; A Loc is a {:x x, :y y, :z z}
+; representing a 3D Cartesian coordinate
+
 (defn -main
   [& args]
   (println "Hello, World!"))
