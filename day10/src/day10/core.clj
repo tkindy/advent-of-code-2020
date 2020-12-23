@@ -7,7 +7,7 @@
   [input]
   (->> input
        str/split-lines
-       (map #(Integer/parseInt %))
+       (map #(Long/parseLong %))
        (reduce conj [])))
 
 (defn read-input
@@ -48,16 +48,18 @@
 
 (defn count-paths
   [graph from to]
-  (loop [frontier [from] finish-count 0]
-    (if (empty? frontier)
-      finish-count
-      (let [node (first frontier)]
-        (if (= node to)
-          (recur (rest frontier) (+ finish-count 1))
-          (recur (apply conj
-                        (rest frontier)
-                        (get graph node))
-                 finish-count))))))
+  (let [counts (reduce
+                (fn [counts node]
+                  (let [neighbors (get graph node [])
+                        neighbor-counts (map #(if (= % to)
+                                                1
+                                                (get counts %))
+                                             neighbors)]
+                    (assoc counts node (apply + neighbor-counts))))
+                {}
+                (sort (java.util.Comparator/reverseOrder) (keys graph)))]
+    (get counts from)))
+
 
 (defn -main
   [& args]
