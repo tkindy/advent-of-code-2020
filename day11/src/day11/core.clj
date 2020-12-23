@@ -36,20 +36,34 @@
   [nums max]
   (filter #(<= 0 % (- max 1)) nums))
 
-(defn get-neighbor-locs
-  [loc width height]
-  (let [{:keys [x y]} loc]
-    (->> (combo/cartesian-product (filter-to-range [(- y 1) y (+ y 1)] height)
-                                  (filter-to-range [(- x 1) x (+ x 1)] width))
-         (map (fn [[y x]] {:x x :y y}))
-         (filter #(not= % loc)))))
+(defn loc+
+  [{x1 :x y1 :y} {x2 :x y2 :y}]
+  {:x (+ x1 x2) :y (+ y1 y2)})
+
+(def vectors
+  (->> (combo/cartesian-product [-1 0 1] [-1 0 1])
+       (map (fn [[y x]] {:x x :y y}))
+       (filter #(not= % {:x 0 :y 0}))))
+
+(defn get-possible-neighbor-locs
+  [loc vector width height]
+  (loop [cur loc, acc []]
+    (let [next (loc+ cur vector)]
+      (if (and (<= 0 (:x next) (dec width))
+               (<= 0 (:y next) (dec height)))
+        (recur next (conj acc next))
+        acc))))
 
 (defn get-neighbors
   [loc seat-map]
-  (map #(get-seat % seat-map)
-       (get-neighbor-locs loc
-                          (count (get seat-map 0))
-                          (count seat-map))))
+  (let [width (count (get seat-map 0))
+        height (count seat-map)]
+    (map (fn [vector]
+           (let [locs (get-possible-neighbor-locs loc vector width height)]
+             (->> locs
+                  (map #(get-seat % seat-map))
+                  (some #{'empty 'occupied}))))
+         vectors)))
 
 (defn count-occupied
   [seats]
@@ -63,7 +77,7 @@
         neighbors (get-neighbors loc seat-map)]
     (match [seat (count-occupied neighbors)]
       ['empty 0] 'occupied
-      ['occupied (true :<< #(>= % 4))] 'empty
+      ['occupied (true :<< #(>= % 5))] 'empty
       :else seat)))
 
 (defn get-all-spots
@@ -117,4 +131,4 @@
 (defn -main
   [& args]
   (let [seat-map (read-input)]
-    (println "Part 1:" (count-occupied-map (simulate seat-map)))))
+    (println "Part 2:" (count-occupied-map (simulate seat-map)))))
