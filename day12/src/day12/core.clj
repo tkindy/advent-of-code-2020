@@ -31,7 +31,7 @@
 
 (defn rotate
   [dir towards degrees]
-  (let [num-turns (/ degrees 3)
+  (let [num-turns (/ degrees 90)
         turn-map (match towards
                    "R" rights
                    "L" lefts)]
