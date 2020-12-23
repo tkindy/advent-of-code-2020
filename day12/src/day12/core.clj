@@ -24,34 +24,40 @@
   [{:keys [x y]} dx dy]
   {:x (+ x dx) :y (+ y dy)})
 
-(def lefts
-  {"E" "N", "N" "W", "W" "S", "S" "E"})
-(def rights
-  {"E" "S", "S" "W", "W" "N", "N" "E"})
+(defn loc+loc
+  [{x1 :x y1 :y} {x2 :x y2 :y}]
+  {:x (+ x1 x2) :y (+ y1 y2)})
 
 (defn rotate
-  [dir towards degrees]
-  (let [num-turns (/ degrees 90)
-        turn-map (match towards
-                   "R" rights
-                   "L" lefts)]
-    (reduce turn-map dir (range num-turns))))
+  [waypoint towards degrees]
+  (let [{:keys [x y]} waypoint
+        radians (* (/ Math/PI 180) degrees)
+        radians (match towards
+                  "R" (* radians -1)
+                  "L" radians)
+        cos (Math/cos radians)
+        sin (Math/sin radians)]
+    {:x (int (- (* x cos) (* y sin)))
+     :y (int (+ (* x sin) (* y cos)))}))
 
 (defn navigate-one
   [ship {:keys [action value]}]
-  (let [{:keys [loc dir]} ship]
+  (let [{:keys [loc waypoint]} ship]
     (match action
-      "N" (assoc ship :loc (loc+ loc 0 (- 0 value)))
-      "S" (assoc ship :loc (loc+ loc 0 value))
-      "E" (assoc ship :loc (loc+ loc value 0))
-      "W" (assoc ship :loc (loc+ loc (- 0 value) 0))
-      (:or "L" "R") (assoc ship :dir (rotate dir action value))
-      "F" (navigate-one ship {:action dir :value value}))))
+      "N" (assoc ship :waypoint (loc+ waypoint 0 value))
+      "S" (assoc ship :waypoint (loc+ waypoint 0 (- 0 value)))
+      "E" (assoc ship :waypoint (loc+ waypoint value 0))
+      "W" (assoc ship :waypoint (loc+ waypoint (- 0 value) 0))
+      (:or "L" "R") (assoc ship :waypoint (rotate waypoint action value))
+      "F" (if (zero? value)
+            ship
+            (navigate-one {:loc (loc+loc loc waypoint) :waypoint waypoint}
+                          {:action "F" :value (dec value)})))))
 
 (defn navigate
   [instructions]
   (reduce navigate-one
-          {:loc {:x 0 :y 0}, :dir "E"}
+          {:loc {:x 0 :y 0}, :waypoint {:x 10 :y 1}}
           instructions))
 
 (defn distance
@@ -63,4 +69,4 @@
 (defn -main
   [& args]
   (let [instructions (read-input)]
-    (println "Part 1:" (distance (navigate instructions)))))
+    (println "Part 2:" (distance (navigate instructions)))))
