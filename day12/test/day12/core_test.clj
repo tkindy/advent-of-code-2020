@@ -34,9 +34,13 @@ F11")
 
 (deftest rotate
   (is (= (c/rotate {:x 3 :y 4} "L" 90)
-         {:x -4 :y 3})
-      (= (c/rotate {:x -4 :y 3} "R" 90)
-         {:x 3 :y 4})))
+         {:x -4 :y 3}))
+  (is (= (c/rotate {:x -4 :y 3} "R" 90)
+         {:x 3 :y 4}))
+  (is (= (c/rotate {:x -4 :y 3} "L" 270)
+         {:x 3 :y 4}))
+  (is (= (c/rotate {:x 12 :y -15} "L" 180)
+         {:x -12 :y 15})))
 
 (deftest navigate
   (is (= (c/navigate example)
