@@ -37,8 +37,8 @@
                   "L" radians)
         cos (Math/cos radians)
         sin (Math/sin radians)]
-    {:x (int (- (* x cos) (* y sin)))
-     :y (int (+ (* x sin) (* y cos)))}))
+    {:x (Math/round (- (* x cos) (* y sin)))
+     :y (Math/round (+ (* x sin) (* y cos)))}))
 
 (defn navigate-one
   [ship {:keys [action value]}]
